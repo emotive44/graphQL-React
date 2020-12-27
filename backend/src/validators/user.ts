@@ -1,13 +1,18 @@
 import emailValidate from '../utils/emailValidate';
 
-interface Input {
+interface RegisterInput {
   email: string
   username: string
   password: string
 }
 
-const validateRegisterInput = (input: Input) => {
-  const errors = {} as Input;
+interface LoginInput {
+  email: string
+  password: string
+}
+
+const validateRegisterInput = (input: RegisterInput) => {
+  const errors = {} as RegisterInput;
 
   const { email, username, password } = input;
 
@@ -45,7 +50,29 @@ const validateRegisterInput = (input: Input) => {
   }
 }
 
+const validateLoginInput = (input: LoginInput) => {
+  const errors = {} as LoginInput;
+
+  const { email, password } = input;
+
+  if (email.trim() === '') {
+    errors.email = 'Email is required'
+  } else if (!emailValidate(email)) {
+    errors.email = 'Email is not valid'
+  }
+
+  if (password.trim() === '') {
+    errors.password = 'Password is required'
+  }
+
+  return {
+    errors,
+    valid: Object.keys(errors).length < 1
+  }
+}
+
 
 export {
+  validateLoginInput,
   validateRegisterInput,
 }
