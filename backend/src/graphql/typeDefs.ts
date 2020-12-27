@@ -20,11 +20,11 @@ export default gql`
   }
 
   type Query {
-    hi: String!
+    getUsers(page: Int): [User]!
   }
 
   type Mutation {
-    registerUser(registerInput: RegisterInput): User!,
+    registerUser(registerInput: RegisterInput): User!
     loginUser(loginInput: LoginInput): User!
   }
 `;

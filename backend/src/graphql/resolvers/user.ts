@@ -19,7 +19,29 @@ type TExistUser = IUser | null;
 export default {
 
   Query: {
-    hi: () => 'hi'
+    async getUsers (_:any, { page } : { page: number }) {
+      let users: IUser[] = [];
+      const perPage = 1;
+      const currPage = page || 1;
+
+      console.log(page)
+
+      try {
+        users = await User
+          .find()
+          .skip((currPage - 1) * perPage)
+          .limit(perPage)
+          .select('-password');
+      } catch (err) {
+        throw new ApolloError('Fetching users failed, please try again.', '500');
+      }
+    
+      if (users.length < 1) {
+        throw new ApolloError('Sorry, do not have more users', '404');
+      }
+
+      return users;
+    }
   },
 
   Mutation: {
