@@ -19,6 +19,12 @@ export default gql`
     username: String!
   }
 
+  type Post {
+    id: ID!
+    text: String!
+    creator: String!
+  }
+
   type Query {
     getUsers(page: Int): [User]!
   }
@@ -26,5 +32,6 @@ export default gql`
   type Mutation {
     registerUser(registerInput: RegisterInput): User!
     loginUser(loginInput: LoginInput): User!
+    createPost(text: String!, creator: String!): Post!
   }
 `;

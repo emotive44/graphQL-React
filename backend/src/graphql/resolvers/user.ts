@@ -14,7 +14,7 @@ interface ILoginInput {
   password: string
 }
 
-type TExistUser = IUser | null;
+export type TExistUser = IUser | null;
 
 export default {
 
