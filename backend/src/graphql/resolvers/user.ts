@@ -1,7 +1,9 @@
-import { ApolloError, UserInputError } from 'apollo-server-express';
+import { ApolloError, UserInputError, AuthenticationError } from 'apollo-server-express';
+import { Request } from 'express';
 
 import User, { IUser } from '../../models/User';
 import { validateRegisterInput, validateLoginInput } from '../../validators/user';
+import createJWT from '../../utils/createJWT';
 
 interface IRegisterInput {
   email: string
@@ -19,12 +21,14 @@ export type TExistUser = IUser | null;
 export default {
 
   Query: {
-    async getUsers (_:any, { page } : { page: number }) {
+    async getUsers (_:any, { page } : { page: number }, { req }: {req: Request}) {
       let users: IUser[] = [];
       const perPage = 1;
       const currPage = page || 1;
 
-      console.log(page)
+      if(!req.authUser) {
+        throw new AuthenticationError('To fetch users, you need be authenticated');
+      }
 
       try {
         users = await User
@@ -81,7 +85,15 @@ export default {
         throw new ApolloError('Register failed, please try again', '500');
       }
 
+      let token: string;
+      try {
+        token = await createJWT(newUser.email, newUser.id || '')
+      } catch (err) {
+        throw new ApolloError('Register failed, please try again', '500');
+      }
+
       return {
+        token,
         id: newUser.id,
         email: newUser.email,
         username: newUser.email
@@ -119,8 +131,16 @@ export default {
         throw new UserInputError('Invalid email or password, login failed.');
       }
 
+      let token: string;
+      try {
+        token = await createJWT(existUser.email, existUser.id || '')
+      } catch (err) {
+        throw new ApolloError('Register failed, please try again', '500');
+      }
+
 
       return {
+        token,
         id: existUser.id,
         email: existUser.email,
         username: existUser.username

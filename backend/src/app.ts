@@ -7,14 +7,19 @@ import env from './config';
 import typeDefs from './graphql/typeDefs';
 import resolvers from './graphql/resolvers';
 
+import chekAuth from './middlewares/chek-auth';
+
 
 const app = express();
 
 app.use(bodyParser.json());
 
+app.use(chekAuth);
+
 const server = new ApolloServer({
   typeDefs,
   resolvers,
+  context: ({ req }) => ({ req })  //to access request object from graphQL resolvers
 });
 
 server.applyMiddleware({ app, cors: true });

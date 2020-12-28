@@ -1,4 +1,5 @@
-import { ApolloError, UserInputError } from 'apollo-server-express';
+import { ApolloError, UserInputError, AuthenticationError } from 'apollo-server-express';
+import { Request } from 'express';
 
 import Post, { IPost } from '../../models/Post';
 import { validatePostInput } from '../../validators/post';
@@ -12,7 +13,11 @@ export default {
   },
 
   Mutation: {
-    async createPost(_: any, { text, creator }: { text: string, creator: string }) {
+    async createPost(_: any, { text, creator }: { text: string, creator: string }, { req }: { req: Request }) {
+      if(!req.authUser) {
+        throw new AuthenticationError('You need be authenticated, to create post');
+      }
+
       const { errors, valid } = validatePostInput({ text, creator });
 
       if(!valid) {

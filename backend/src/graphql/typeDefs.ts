@@ -15,6 +15,7 @@ export default gql`
 
   type User {
     id: ID!
+    token: String!
     email: String!
     username: String!
   }
