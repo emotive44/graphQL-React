@@ -33,6 +33,10 @@ export default gql`
   type Mutation {
     registerUser(registerInput: RegisterInput): User!
     loginUser(loginInput: LoginInput): User!
-    createPost(text: String!, creator: String!): Post!
+    createPost(text: String!): Post!
+  }
+
+  type Subscription {
+    newPost: Post!
   }
 `;

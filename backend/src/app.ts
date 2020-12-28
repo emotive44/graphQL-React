@@ -1,7 +1,8 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
-import { ApolloServer } from 'apollo-server-express';
+import { ApolloServer, PubSub } from 'apollo-server-express';
+import http from 'http';
 
 import env from './config';
 import typeDefs from './graphql/typeDefs';
@@ -16,13 +17,26 @@ app.use(bodyParser.json());
 
 app.use(chekAuth);
 
+const pubsub = new PubSub();
+
 const server = new ApolloServer({
   typeDefs,
   resolvers,
-  context: ({ req }) => ({ req })  //to access request object from graphQL resolvers
+  context: ({ req }) => ({ req, pubsub }),  //to access request object from graphQL resolvers
+  playground: true, // enables the actual playground
+  subscriptions: {
+    path: '/api/ws', //set route for websockets
+    keepAlive: 15000,
+    onConnect: () => console.log("connected"),
+    onDisconnect: () => console.log("disconnected")
+  }
 });
+                                          // set route for query and mutation
+server.applyMiddleware({ app, cors: true, path: '/api/graphql' });
 
-server.applyMiddleware({ app, cors: true });
+// create http server, to be able to make subscriptions
+const httpServer = http.createServer(app);
+server.installSubscriptionHandlers(httpServer);
 
 mongoose
   .connect(
@@ -30,7 +44,7 @@ mongoose
     { useNewUrlParser: true, useUnifiedTopology: true }
   )
   .then(() => {
-    app.listen(env.PORT, () => {
+    httpServer.listen(env.PORT, () => {
       console.log(`Server ready at http://localhost:${env.PORT}${server.graphqlPath}`,)
     });
   })
