@@ -1,7 +1,7 @@
 import { ApolloError, UserInputError, AuthenticationError, PubSub } from 'apollo-server-express';
 import { Request } from 'express';
 
-import Post from '../../models/Post';
+import Post, { IPost } from '../../models/Post';
 import { validatePostInput } from '../../validators/post';
 import { TExistUser } from './user';
 import User from '../../models/User';
@@ -14,7 +14,22 @@ interface IContext {
 
 export default {
   Query: {
+    async getPosts () {
+      let posts: IPost[] = [];
+      try {
+        posts = await Post.find()
+          .populate('creator')
+          .sort({ createdAt: -1 });
+      } catch (err) {
+        throw new ApolloError('Fetching posts failed, please try again.', '500');
+      }
 
+      if (posts.length < 1) {
+        throw new ApolloError('Does not exist posts at data.', '404');
+      }
+
+      return posts;
+    }
   },
 
   Mutation: {
@@ -44,7 +59,7 @@ export default {
 
       const newPost = new Post({
         text,
-        creator: req.authUser.id
+        creator: req.authUser
       });
 
       try {

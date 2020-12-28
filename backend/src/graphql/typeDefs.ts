@@ -23,11 +23,12 @@ export default gql`
   type Post {
     id: ID!
     text: String!
-    creator: String!
+    creator: User!
   }
 
   type Query {
     getUsers(page: Int): [User]!
+    getPosts: [Post]!
   }
 
   type Mutation {
