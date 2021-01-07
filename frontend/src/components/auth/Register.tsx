@@ -1,7 +1,8 @@
-import React, { FC, useState } from 'react';
+import React, { FC } from 'react';
 import { useHistory, Redirect } from 'react-router-dom';
 
-import Input from '../common/Input';;
+import Input from '../common/Input';
+import useForm from '../hooks/useForm';
 
 
 interface RegisterProps {
@@ -11,30 +12,18 @@ interface RegisterProps {
 
 const Register:FC<RegisterProps> = ({ loginHandler, isAuth }) => {
   const history = useHistory();
-  const [state, setState] = useState({
-    name: '',
-    email: '',
-    password: '',
-  });
+  const { submitHandler, inputChangeHandler, state } = useForm(callback);
 
   if(isAuth) {
     return <Redirect to='/' />
   }
 
-  const inputChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { value, name } = e.target;
-
-    setState(prev => ({
-      ...prev,
-      [name]: value,
-    }))
-  }
-
-  const submitHandler = async () => {
+  function callback () {
     loginHandler();
     history.push('/');
     console.log(state)
   }
+
 
   return (
     <section className="form-wrapper" style={{height: "24rem"}}>

@@ -5,7 +5,7 @@ import './Input.css';
 interface InputGroupProps {
   label: string;
   type: string;
-  value: string;
+  value: string | number;
   onChange(e: React.ChangeEvent<HTMLInputElement>): void
 }
 

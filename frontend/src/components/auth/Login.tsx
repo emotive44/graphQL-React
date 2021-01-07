@@ -1,8 +1,9 @@
-import React, { FC, useState } from 'react';
+import React, { FC } from 'react';
 import { useHistory, Redirect } from 'react-router-dom';
 import './Auth.css';
 
 import Input from '../common/Input';
+import useForm from '../hooks/useForm';
 
 
 interface LoginProps {
@@ -12,31 +13,17 @@ interface LoginProps {
 
 const Login: FC<LoginProps> = ({ isAuth, loginHandler }) => {
   const history = useHistory();
-  const [state, setState] = useState({
-    email: '',
-    password: '',
-  });
+  const { submitHandler, inputChangeHandler, state } = useForm(callback);
 
   if(isAuth) {
     return <Redirect to='/' />
   }
   
-  const inputChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { value, name } = e.target;
-
-    setState(prev => ({
-      ...prev,
-      [name]: value,
-    }))
-  }
-  
-
-  const submitHandler = () => {
+  function callback () {
     loginHandler();
     history.push('/');
-    console.log(state)
-  }
-
+    console.log(state);
+  } 
 
   return (
     <section className="form-wrapper">
