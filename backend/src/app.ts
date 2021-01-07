@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { NextFunction, Response } from 'express';
 import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
 import { ApolloServer, PubSub } from 'apollo-server-express';
@@ -14,6 +14,20 @@ import chekAuth from './middlewares/chek-auth';
 const app = express();
 
 app.use(bodyParser.json());
+
+// CORS middleware
+app.use((_, res: Response, next: NextFunction) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader(
+    'Access-Control-Allow-Headers',
+    'Origin, x-auth-token, Content-Type, Accept, Authorization'
+  );
+  res.setHeader(
+    'Access-Control-Allow-Methods',
+    'GET, POST, PUT, PATCH, DELETE'
+  );
+  next();
+});
 
 app.use(chekAuth);
 
