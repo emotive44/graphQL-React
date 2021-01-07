@@ -1,0 +1,18 @@
+.navbar {
+  width: 32rem;
+  margin: 1rem auto;
+  display: flex;
+  justify-content: center;
+  border-bottom: 2px solid black;
+  padding-bottom: 0.5rem;
+}
+
+.navbar li {
+  margin-right: 1rem;
+  cursor: pointer;
+}
+
+.navbar .selected {
+  padding-bottom: 0.48rem;
+  border-bottom: 4px solid black;
+}
