@@ -8,15 +8,15 @@ import Home from './components/home/Home';
 import Users from './components/users/Users';
 
 function App() {
-  const [isLogin, setIsLogin] = useState(true);
+  const [isLogin, setIsLogin] = useState(false);
 
   return (
     <Router>
       <Navbar isAuth={isLogin} logoutHandler={() => setIsLogin(false)} />
       <Switch>
         <Route exact path='/' component={Home}/>
-        <Route path='/login' component={Login} />
-        <Route path='/register' component={Register} />
+        <Route path='/login' render={() => <Login loginHandler={() => setIsLogin(true)} isAuth={isLogin} />} />
+        <Route path='/register' render={() => <Register loginHandler={() => setIsLogin(true)} isAuth={isLogin} />} />
         <Route path='/users' component={Users} />
       </Switch>
     </Router>
