@@ -13,6 +13,10 @@ body {
   font-size: 1.6rem;
 }
 
+button {
+  cursor: pointer;
+}
+
 input {
   outline: none;
 }

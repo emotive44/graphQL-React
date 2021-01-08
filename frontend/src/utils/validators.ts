@@ -33,6 +33,12 @@ export const validate = (value: string, name: string): string => {
       } else {
         return 'correct';
       }
+    case 'text':
+      if(value === '') {
+        return 'Can not create post without content';
+      } else if (value.length < 4) {
+        return 'Content should have to be more than 4 characters';
+      }
   }
 
   return '';

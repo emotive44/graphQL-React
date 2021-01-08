@@ -2,3 +2,17 @@
   width: 50%;
   margin: 0 auto;
 }
+
+.form-post {
+  display: flex;
+}
+
+.form-post input {
+  height: 3rem;
+}
+
+.form-post button {
+  height: 3rem;
+  align-self: center;
+  margin-right: 10rem;
+}

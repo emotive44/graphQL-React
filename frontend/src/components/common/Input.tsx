@@ -19,7 +19,7 @@ const InputGroup: FC<InputGroupProps> = ({ label, type, value, err, onChange }) 
   }
   return (
     <div className={inputClasses.join(' ')}>
-      <label htmlFor={labelTLC}>Your {label}</label>
+      <label htmlFor={labelTLC}>{label}</label>
       <div className='input'>
         <input type={type} id={labelTLC} name={labelTLC} value={value} onChange={onChange} />
         {err === 'correct' && (

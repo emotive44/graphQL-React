@@ -29,7 +29,7 @@ const useForm = (callback: Function, initState: IState) => {
     callback();
   }
 
-  return { inputChangeHandler, submitHandler, setErrors, errors, state }
+  return { inputChangeHandler, submitHandler, setErrors, setState, errors, state }
 }
 
 export default useForm;

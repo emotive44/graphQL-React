@@ -29,6 +29,18 @@ export const REGISTER_USER = gql`
   }
 `;
 
+export const CREATE_POST = gql`
+  mutation CreatePost($text: String!) {
+    createPost(text: $text) {
+      id,
+      text,
+      creator {
+        username
+      }
+    }
+  }
+`
+
 export const GET_POSTS = gql`
   {
     getPosts {

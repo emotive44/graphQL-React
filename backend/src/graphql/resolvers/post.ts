@@ -64,11 +64,11 @@ export default {
 
       try {
         await newPost.save();
+        pubsub.publish('NEW_POST', { newPost: newPost });
       } catch (err) {
         throw new ApolloError('Creating post failed, please try again', '500');
       }
 
-      pubsub.publish('NEW_POST', { newPost: newPost });
 
       return newPost;
     }
