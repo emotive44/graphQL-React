@@ -1,0 +1,19 @@
+.post {
+  border: 1px solid black;
+  border-radius: 1rem;
+  margin-bottom: 2rem;
+  padding: 0.5rem;
+}
+
+.post:first-child {
+  margin-top: 5rem;
+}
+
+.post .creator {
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.post .text {
+  margin-left: 2rem;
+}

@@ -28,3 +28,15 @@ export const REGISTER_USER = gql`
     }
   }
 `;
+
+export const GET_POSTS = gql`
+  {
+    getPosts {
+      id,
+      text,
+      creator{
+        username
+      }
+    }
+  }
+`;
