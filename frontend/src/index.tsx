@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import ApolloProvider from './ApolloProvider';
+import ApolloProvider from './utils/ApolloProvider';
 import reportWebVitals from './reportWebVitals';
 import './index.css';
 

@@ -12,7 +12,7 @@ interface RegisterProps {
 
 const Register:FC<RegisterProps> = ({ loginHandler, isAuth }) => {
   const history = useHistory();
-  const { submitHandler, inputChangeHandler, state } = useForm(callback);
+  const { submitHandler, inputChangeHandler, state } = useForm(callback, {});
 
   if(isAuth) {
     return <Redirect to='/' />

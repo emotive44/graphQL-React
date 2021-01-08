@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 import Navbar from './components/common/Navbar';
@@ -10,6 +10,12 @@ import Users from './components/users/Users';
 function App() {
   const [isLogin, setIsLogin] = useState(false);
 
+ useEffect(() => {
+  if(localStorage.getItem('token')) {
+    setIsLogin(true);
+  }
+ }, []);
+ 
   return (
     <Router>
       <Navbar isAuth={isLogin} logoutHandler={() => setIsLogin(false)} />

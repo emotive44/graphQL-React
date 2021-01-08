@@ -4,3 +4,8 @@
   margin: 1rem auto;
   flex-direction: column;
 }
+
+.input-container .err {
+  height: 2rem;
+  color: red;
+}

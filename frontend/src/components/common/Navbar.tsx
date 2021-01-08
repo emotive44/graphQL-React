@@ -18,6 +18,7 @@ const Navbar: FC<NavbarProps> = ({ isAuth, logoutHandler }) => {
     <ul className="navbar">
       {isAuth && (
         <>
+          <li>Hi, {localStorage.getItem('uname')}!</li>
           <li><NavLink to='/users' activeClassName='selected'>Users</NavLink></li>
           <li><NavLink exact to='/' activeClassName='selected'>Home</NavLink></li>
         </>

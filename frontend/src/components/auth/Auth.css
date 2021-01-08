@@ -1,6 +1,6 @@
 .form-wrapper {
   width: 50rem;
-  height: 20rem;
+  height: 25rem;
   margin: 5rem auto;
   border: 1px solid black;
 }
@@ -10,4 +10,11 @@
   display: block;
   margin: 2rem auto;
   padding: 0.5rem;
+}
+
+.form-wrapper .error {
+  color: red;
+  width: 70%;
+  margin: 1rem auto;
+  text-align: center;
 }
