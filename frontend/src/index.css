@@ -13,6 +13,9 @@ body {
   font-size: 1.6rem;
 }
 
+input {
+  outline: none;
+}
 
 li {
   list-style: none;

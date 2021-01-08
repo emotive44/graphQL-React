@@ -12,11 +12,21 @@ interface InputGroupProps {
 
 const InputGroup: FC<InputGroupProps> = ({ label, type, value, err, onChange }) => {
   const labelTLC = label.toLowerCase();
+  const inputClasses = ['input-container'];
+
+  if(err === 'correct') {
+    inputClasses.push('correct');
+  }
   return (
-    <div className="input-container">
+    <div className={inputClasses.join(' ')}>
       <label htmlFor={labelTLC}>Your {label}</label>
-      <input type={type} id={labelTLC} name={labelTLC} value={value} onChange={onChange} />
-      <span className="err">{err}</span>
+      <div className='input'>
+        <input type={type} id={labelTLC} name={labelTLC} value={value} onChange={onChange} />
+        {err === 'correct' && (
+          <small><i className="far fa-check-circle"/> Correct</small>
+        )}
+      </div>
+      <span className="err">{err === 'correct' ? '' : err}</span>
     </div>
   )
 }

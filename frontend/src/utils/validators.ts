@@ -7,16 +7,32 @@ export const validate = (value: string, name: string): string => {
   switch(name) {
     case 'email':
       if (value === '') {
-        return 'Please enter an email'
+        return 'Please enter an email';
       } else if (!validateEmail(value)) {
-        return 'Please enter a valid email'
+        return 'Please enter a valid email';
+      } else {
+        return 'correct';
       }
-      break;
     case 'password':
       if(value === '') {
-        return 'Please enter a password'
+        return 'Please enter a password';
+      } else if (value.length < 6) {
+        return 'Password should have to be more than 6 characters';
+      } else {
+        return 'correct';
       }
-      break;
+    case 'username':
+      if(value === '') {
+        return 'Please enter a username';
+      } else if(value.length < 4) {
+        return 'Username should have to be more than 4 characters';
+      } else if (value.length > 15) {
+        return 'Username should have to be less than 15 characters'
+      } else if (value.match(/^\d/)) {
+        return 'Username can not start with digit';
+      } else {
+        return 'correct';
+      }
   }
 
   return '';

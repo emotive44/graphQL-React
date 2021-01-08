@@ -5,7 +5,25 @@
   flex-direction: column;
 }
 
+.input {
+  position: relative;
+}
+
+.input input {
+  width: 100%;
+}
+
+.input small {
+  position: absolute;
+  right: -6.5rem;
+  top: 0.2rem;
+  color: green;
+  vertical-align: middle;
+}
+
 .input-container .err {
   height: 2rem;
+  width: 35rem;
+  font-size: 1.3rem;
   color: red;
 }

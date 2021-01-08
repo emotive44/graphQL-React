@@ -10,7 +10,7 @@ import useForm from '../hooks/useForm';
 
 
 
-interface ILoginUser {
+export interface ILoginUser {
   id: string;
   username: string;
   token: string;

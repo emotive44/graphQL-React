@@ -96,7 +96,7 @@ export default {
         token,
         id: newUser.id,
         email: newUser.email,
-        username: newUser.email
+        username: newUser.username
       }
     },
 
