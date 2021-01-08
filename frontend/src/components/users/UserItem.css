@@ -1,0 +1,19 @@
+.user {
+  border: 1px solid black;
+  border-radius: 1rem;
+  margin-bottom: 2rem;
+  padding: 0.5rem;
+}
+
+.user:first-child {
+  margin-top: 5rem;
+}
+
+.user__name {
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.user__email {
+  margin-left: 2rem;
+}

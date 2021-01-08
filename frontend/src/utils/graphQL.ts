@@ -40,3 +40,13 @@ export const GET_POSTS = gql`
     }
   }
 `;
+
+export const GET_USERS = gql`
+  {
+    getUsers {
+      id,
+      email,
+      username,
+    }
+  }
+`;
