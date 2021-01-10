@@ -1,8 +1,9 @@
 import React, { FC } from 'react';
-import { useQuery, useMutation } from '@apollo/client';
+import { Redirect } from 'react-router-dom';
+import { useQuery, useMutation, useSubscription } from '@apollo/client';
 import './Home.css';
 
-import { GET_POSTS, CREATE_POST } from '../../utils/graphQL';
+import { GET_POSTS, CREATE_POST, NEW_POST } from '../../utils/graphQL';
 
 import Post from './Post';
 import Input from '../common/Input';
@@ -15,8 +16,12 @@ interface IPost {
   creator: { username: string }
 }
 
+interface HomeProps {
+  isAuth: boolean
+}
 
-const Home: FC = () => {
+
+const Home: FC<HomeProps> = ({ isAuth }) => {
   const {  
     state, 
     errors, 
@@ -55,15 +60,21 @@ const Home: FC = () => {
     }
   });
 
-  const { loading, error, data } = useQuery(GET_POSTS, { returnPartialData: true });
-  const posts: IPost[] = data?.getPosts;
-
-  if (loading) return <p>Loading....</p>;
-
   function callback () {
     createPost();
     setErrors({ text: '' });
     setState({ text: '' });
+  }
+
+  const { loading, error, data, refetch: postsRefetch } = useQuery(GET_POSTS, { returnPartialData: true });
+  const posts: IPost[] = data?.getPosts;
+
+  useSubscription(NEW_POST, { onSubscriptionData: () => postsRefetch() });
+
+  if (loading) return <p>Loading....</p>;
+
+  if(!isAuth) {
+    return <Redirect to='/login' />
   }
 
   return (

@@ -20,7 +20,7 @@ function App() {
     <Router>
       <Navbar isAuth={isLogin} logoutHandler={() => setIsLogin(false)} />
       <Switch>
-        <Route exact path='/' component={Home}/>
+        <Route exact path='/' component={() => <Home isAuth={isLogin} />}/>
         <Route path='/login' render={() => <Login loginHandler={() => setIsLogin(true)} isAuth={isLogin} />} />
         <Route path='/register' render={() => <Register loginHandler={() => setIsLogin(true)} isAuth={isLogin} />} />
         <Route path='/users' component={Users} />

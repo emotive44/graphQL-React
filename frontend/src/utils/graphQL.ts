@@ -62,3 +62,15 @@ export const GET_USERS = gql`
     }
   }
 `;
+
+export const NEW_POST = gql`
+  subscription {
+    newPost {
+      id,
+      text,
+      creator {
+        username
+      }
+    }
+  }
+`;
