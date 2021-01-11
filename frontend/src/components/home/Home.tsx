@@ -1,6 +1,6 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
 import { Redirect } from 'react-router-dom';
-import { useQuery, useMutation, useSubscription } from '@apollo/client';
+import { useQuery, useMutation } from '@apollo/client';
 import './Home.css';
 
 import { GET_POSTS, CREATE_POST, NEW_POST } from '../../utils/graphQL';
@@ -49,6 +49,10 @@ const Home: FC<HomeProps> = ({ isAuth }) => {
       // update apollo cache with new post
       proxy.writeQuery({ query: GET_POSTS, data: { getPosts }});
     },
+    onCompleted: () => {
+      setErrors({ text: '' });
+      setState({ text: '' });
+    },
     onError: (err) => {
       const errMsg = err.graphQLErrors[0]?.message;
 
@@ -62,17 +66,33 @@ const Home: FC<HomeProps> = ({ isAuth }) => {
 
   function callback () {
     createPost();
-    setErrors({ text: '' });
-    setState({ text: '' });
   }
-
-  const { loading, error, data, refetch: postsRefetch } = useQuery(GET_POSTS, { returnPartialData: true });
+  
+  // fetchPolicy: cache and network check 
+  // If have new posts in database - give them with request else give posts from cache
+  const { loading, error, data, subscribeToMore } = useQuery(GET_POSTS, { fetchPolicy: 'cache-and-network' });
   const posts: IPost[] = data?.getPosts;
 
-  useSubscription(NEW_POST, { onSubscriptionData: () => postsRefetch() });
+
+  useEffect(() => {
+    const unsubscribe = subscribeToMore({
+      document: NEW_POST,
+      updateQuery: (prev, { subscriptionData }) => {
+        if (!subscriptionData.data) return prev;
+        const newPost: IPost = subscriptionData.data.newPost;
+        const prevPosts: IPost[] = prev.getPosts || [];
+  
+        return Object.assign({}, prev, {
+          getPosts: [newPost, ...prevPosts]
+        });
+      },
+    });
+
+    return () => unsubscribe();
+  });
 
   if (loading) return <p>Loading....</p>;
-
+  
   if(!isAuth) {
     return <Redirect to='/login' />
   }

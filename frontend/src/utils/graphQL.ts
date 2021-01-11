@@ -42,7 +42,7 @@ export const CREATE_POST = gql`
 `
 
 export const GET_POSTS = gql`
-  {
+  query GetPosts{
     getPosts {
       id,
       text,
@@ -54,7 +54,7 @@ export const GET_POSTS = gql`
 `;
 
 export const GET_USERS = gql`
-  {
+  query GetUsers{
     getUsers {
       id,
       email,
